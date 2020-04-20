@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .image-box {
+            height: 300px;
+            text-align: center
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="image-box">
+            <img src="" width="600" height="300" alt="loading" data-src="./images/img1.png" class="my-image" />
+        </div>
+        <div class="image-box">
+            <img src="" width="600" height="300" alt="loading" data-src="./images/img2.png" class="my-image" />
+        </div>
+        <div class="image-box">
+            <img src="" width="600" height="300" alt="loading" data-src="./images/img3.png" class="my-image" />
+        </div>
+        <div class="image-box">
+            <img src="" width="600" height="300" alt="loading" data-src="./images/img4.png" class="my-image" />
+        </div>
+        <div class="image-box">
+            <img src="" width="600" height="300" alt="loading" data-src="./images/img5.png" class="my-image" />
+        </div>
+        <div class="image-box">
+            <img src="" width="600" height="300" alt="loading" data-src="./images/img6.png" class="my-image" />
+        </div>
+        <div class="image-box">
+            <img src="" width="600" height="300" alt="loading" data-src="./images/img7.png" class="my-image" />
+        </div>
+        <div class="image-box">
+            <img src="" width="600" height="300" alt="loading" data-src="./images/img8.png" class="my-image" />
+        </div>
+        <div class="image-box">
+            <img src="" width="600" height="300" alt="loading" data-src="./images/img9.png" class="my-image" />
+        </div>
+        <div class="image-box">
+            <img src="" width="600" height="300" alt="loading" data-src="./images/img10.png" class="my-image" />
+        </div>
+    </div>
+    <script>
+        function isInView(el) {
+            const bondTop = el.getBoundingClientRect().top
+            const clientHeight = window.innerHeight //document.documentElement.clientHeight;
+            return bondTop <= clientHeight + 100 //100是为了提前加载
+        }
+
+        let index = 0;
+
+        function checkImgs() {
+            var imgs = document.querySelectorAll('.my-image');
+            // Array.prototype.map.call()
+            for (let i = index; i < imgs.length; i++) {
+                if (isInView(imgs[i])) {
+                    loadImg(imgs[i])
+                    index = i
+                }
+            }
+        }
+
+        function loadImg(el) {
+            if (!el.getAttribute('src')) {
+                const src = el.dataset.src; //el.dataset是一个对象返回自定义属性的key
+                el.src = src
+            }
+        }
+
+        function throttle(fn, wait = 3000) {
+            var pre = Date.now();
+            return function () {
+                const now = Date.now();
+                const context = this;
+                const args = arguments;
+                if (now - pre >= wait) {
+                    fn.apply(context, args)
+                    pre = Date.now();
+                }
+            }
+        }
+
+        window.onload = checkImgs;
+        window.onscroll = throttle(checkImgs);
+    </script>
+
+</body>
+
+</html>
